@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "deepflow"
+name = "zencore-deepflow"
 version = "1.12.0"
 description = "DeepFlow — ZenCore multi-agent framework built on smolagents."
 readme = "README.md"
@@ -35,7 +35,7 @@ mcp = ["mcpadapt>=0.0.15", "mcp"]
 web = ["duckduckgo-search>=6.3.0", "markdownify>=0.14.1"]
 browser = ["selenium", "helium"]
 all = [
-    "deepflow[litellm,openai,transformers,gradio,docker,e2b,mcp,web,browser]",
+    "zencore-deepflow[litellm,openai,transformers,gradio,docker,e2b,mcp,web,browser]",
 ]
 
 [tool.setuptools]
