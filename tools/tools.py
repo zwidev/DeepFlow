@@ -57,15 +57,15 @@ from huggingface_hub import (
 )
 from huggingface_hub.utils import is_torch_available
 
-from ._function_type_hints_utils import (
+from ..core._function_type_hints_utils import (
     TypeHintParsingException,
     _convert_type_hints_to_json_schema,
     get_imports,
     get_json_schema,
 )
-from .agent_types import handle_agent_input_types, handle_agent_output_types
+from ..core.data_types import handle_agent_input_types, handle_agent_output_types
 from .tool_validation import MethodChecker, validate_tool_attributes
-from .utils import BASE_BUILTIN_MODULES, _is_package_available, _is_pillow_available, get_source, instance_to_source
+from ..utils.utils import BASE_BUILTIN_MODULES, _is_package_available, _is_pillow_available, get_source, instance_to_source
 
 
 logger = logging.getLogger(__name__)
@@ -220,7 +220,7 @@ class Tool:
             forward_source_code = get_source(self.forward)
             tool_code = textwrap.dedent(
                 f"""
-            from smolagents import Tool
+            from deepflow import Tool
             from typing import Any, Optional
 
             class {class_name}(Tool):
@@ -770,7 +770,7 @@ class ToolCollection:
 
         Example:
         ```py
-        >>> from smolagents import ToolCollection, CodeAgent
+        >>> from deepflow import ToolCollection, CodeAgent
 
         >>> image_tool_collection = ToolCollection.from_hub("huggingface-tools/diffusion-tools-6630bb19a942c2306a2cdb6f")
         >>> agent = CodeAgent(tools=[*image_tool_collection.tools], add_base_tools=True)
@@ -802,7 +802,7 @@ class ToolCollection:
 
         Example:
         ```py
-        >>> from smolagents import ToolCollection, CodeAgent
+        >>> from deepflow import ToolCollection, CodeAgent
         >>> from mcp import StdioServerParameters
 
         >>> server_parameters = StdioServerParameters(

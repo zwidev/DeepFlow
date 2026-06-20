@@ -40,24 +40,24 @@ from rich.text import Text
 if TYPE_CHECKING:
     import PIL.Image
 
-from .agent_types import AgentAudio, AgentImage, AgentType, handle_agent_output_types
-from .default_tools import TOOL_MAPPING, FinalAnswerTool
-from .local_python_executor import BASE_BUILTIN_MODULES, LocalPythonExecutor, PythonExecutor, fix_final_answer_code
+from .data_types import AgentAudio, AgentImage, AgentType, handle_agent_output_types
+from ..tools.default_tools import TOOL_MAPPING, FinalAnswerTool
+from ..runtime.local_python_executor import BASE_BUILTIN_MODULES, LocalPythonExecutor, PythonExecutor, fix_final_answer_code
 from .memory import ActionStep, AgentMemory, PlanningStep, SystemPromptStep, TaskStep, ToolCall
-from .models import (
+from ..models.llm_models import (
     ChatMessage,
     MessageRole,
     Model,
 )
-from .monitoring import (
+from ..utils.monitoring import (
     YELLOW_HEX,
     AgentLogger,
     LogLevel,
     Monitor,
 )
-from .remote_executors import DockerExecutor, E2BExecutor
-from .tools import Tool
-from .utils import (
+from ..runtime.remote_executors import DockerExecutor, E2BExecutor
+from ..tools.tools import Tool
+from ..utils.utils import (
     AgentError,
     AgentExecutionError,
     AgentGenerationError,
@@ -284,7 +284,7 @@ class MultiStepAgent:
 
         Example:
         ```py
-        from smolagents import CodeAgent
+        from deepflow import CodeAgent
         agent = CodeAgent(tools=[])
         agent.run("What is the result of 2 power 3.7384?")
         ```
@@ -747,7 +747,7 @@ You have been provided with these additional arguments, that you can access usin
         app_template = textwrap.dedent("""
             import yaml
             import os
-            from smolagents import GradioUI, {{ class_name }}, {{ agent_dict['model']['class'] }}
+            from deepflow import GradioUI, {{ class_name }}, {{ agent_dict['model']['class'] }}
 
             # Get current directory path
             CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -915,7 +915,7 @@ You have been provided with these additional arguments, that you can access usin
         # Recursively get managed agents
         managed_agents = []
         for managed_agent_name, managed_agent_class in agent_dict["managed_agents"].items():
-            agent_cls = getattr(importlib.import_module("smolagents.agents"), managed_agent_class)
+            agent_cls = getattr(importlib.import_module("deepflow.core.agent_core"), managed_agent_class)
             managed_agents.append(agent_cls.from_folder(folder / "managed_agents" / managed_agent_name))
 
         tools = []
@@ -923,7 +923,7 @@ You have been provided with these additional arguments, that you can access usin
             tool_code = (folder / "tools" / f"{tool_name}.py").read_text()
             tools.append(Tool.from_code(tool_code))
 
-        model_class: Model = getattr(importlib.import_module("smolagents.models"), agent_dict["model"]["class"])
+        model_class: Model = getattr(importlib.import_module("deepflow.models.llm_models"), agent_dict["model"]["class"])
         model = model_class.from_dict(agent_dict["model"]["data"])
 
         args = dict(
@@ -1022,7 +1022,7 @@ class ToolCallingAgent(MultiStepAgent):
         **kwargs,
     ):
         prompt_templates = prompt_templates or yaml.safe_load(
-            importlib.resources.files("smolagents.prompts").joinpath("toolcalling_agent.yaml").read_text()
+            importlib.resources.files("deepflow.prompts").joinpath("toolcalling_agent.yaml").read_text()
         )
         super().__init__(
             tools=tools,
@@ -1167,7 +1167,7 @@ class CodeAgent(MultiStepAgent):
         self.authorized_imports = sorted(set(BASE_BUILTIN_MODULES) | set(self.additional_authorized_imports))
         self.max_print_outputs_length = max_print_outputs_length
         prompt_templates = prompt_templates or yaml.safe_load(
-            importlib.resources.files("smolagents.prompts").joinpath("code_agent.yaml").read_text()
+            importlib.resources.files("deepflow.prompts").joinpath("code_agent.yaml").read_text()
         )
         super().__init__(
             tools=tools,

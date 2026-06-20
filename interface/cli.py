@@ -38,8 +38,10 @@ import os  # For environment variable access and file path handling
 from dotenv import load_dotenv  # For loading environment variables from .env files
 
 # Local imports from the agent framework
-from smolagents import CodeAgent, HfApiModel, LiteLLMModel, Model, OpenAIServerModel, Tool, TransformersModel
-from smolagents.default_tools import TOOL_MAPPING  # Dictionary of available built-in tools
+from ..core.agent_core import CodeAgent
+from ..models.llm_models import HfApiModel, LiteLLMModel, Model, OpenAIServerModel, TransformersModel
+from ..tools.tools import Tool
+from ..tools.default_tools import TOOL_MAPPING  # Dictionary of available built-in tools
 
 
 # Default prompt used when no prompt is provided by the user

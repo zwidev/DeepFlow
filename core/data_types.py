@@ -26,7 +26,7 @@ from PIL import Image                             # For image processing
 from PIL.Image import Image as ImageType          # The PIL Image class type
 
 # Local imports
-from .utils import _is_package_available          # Utility to check if a package is available
+from ..utils.utils import _is_package_available          # Utility to check if a package is available
 
 
 # Set up module-level logger
