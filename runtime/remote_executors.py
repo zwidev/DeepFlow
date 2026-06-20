@@ -28,9 +28,9 @@ import requests
 from PIL import Image
 
 from .local_python_executor import PythonExecutor
-from .monitoring import LogLevel
-from .tools import Tool, get_tools_definition_code
-from .utils import AgentError
+from ..utils.monitoring import LogLevel
+from ..tools.tools import Tool, get_tools_definition_code
+from ..utils.utils import AgentError
 
 
 try:

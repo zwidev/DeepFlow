@@ -42,7 +42,7 @@ from typing import (
 
 from huggingface_hub.utils import is_torch_available
 
-from .utils import _is_pillow_available
+from ..utils.utils import _is_pillow_available
 
 
 def get_imports(code: str) -> List[str]:

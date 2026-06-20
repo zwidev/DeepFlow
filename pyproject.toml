@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "zencore-deepflow"
+version = "1.12.0"
+description = "DeepFlow — ZenCore multi-agent framework built on smolagents."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [{ name = "ZenCore" }]
+keywords = ["agents", "llm", "smolagents", "zencore", "deepflow"]
+dependencies = [
+    "huggingface-hub>=0.28.0",
+    "requests>=2.32.3",
+    "rich>=13.9.4",
+    "jinja2>=3.1.4",
+    "pyyaml>=6.0",
+    "numpy>=1.24",
+    "pillow>=11.0.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+litellm = ["litellm>=1.60.2"]
+openai = ["openai>=1.58.1"]
+transformers = ["accelerate", "transformers>=4.0.0", "torch"]
+vllm = ["vllm"]
+mlx-lm = ["mlx-lm"]
+gradio = ["gradio>=5.13.2"]
+docker = ["docker>=7.1.0", "websocket-client"]
+e2b = ["e2b-code-interpreter>=1.0.3", "python-dotenv>=1.0.1"]
+mcp = ["mcpadapt>=0.0.15", "mcp"]
+web = ["duckduckgo-search>=6.3.0", "markdownify>=0.14.1"]
+browser = ["selenium", "helium"]
+all = [
+    "zencore-deepflow[litellm,openai,transformers,gradio,docker,e2b,mcp,web,browser]",
+]
+
+[tool.setuptools]
+package-dir = { "deepflow" = "." }
+packages = [
+    "deepflow",
+    "deepflow.core",
+    "deepflow.interface",
+    "deepflow.models",
+    "deepflow.runtime",
+    "deepflow.tools",
+    "deepflow.tools.presets",
+    "deepflow.utils",
+    "deepflow.templates",
+    "deepflow.prompts",
+]
+
+[tool.setuptools.package-data]
+"deepflow.prompts" = ["*.yaml"]

@@ -42,8 +42,8 @@ from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union
 
 from huggingface_hub.utils import is_torch_available
 
-from .tools import Tool
-from .utils import _is_package_available, encode_image_base64, make_image_url, parse_json_blob
+from ..tools.tools import Tool
+from ..utils.utils import _is_package_available, encode_image_base64, make_image_url, parse_json_blob
 
 
 if TYPE_CHECKING:
@@ -722,8 +722,8 @@ from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union
 
 from huggingface_hub.utils import is_torch_available
 
-from .tools import Tool
-from .utils import _is_package_available, encode_image_base64, make_image_url, parse_json_blob
+from ..tools.tools import Tool
+from ..utils.utils import _is_package_available, encode_image_base64, make_image_url, parse_json_blob
 
 
 if TYPE_CHECKING:
@@ -1837,6 +1837,41 @@ class AzureOpenAIServerModel(OpenAIServerModel):
         return openai.AzureOpenAI(**self.client_kwargs)
 
 
+class OpenAIModel(OpenAIServerModel):
+    """OpenAI Chat Completions model.
+
+    Convenience wrapper around :class:`OpenAIServerModel` that targets OpenAI's
+    own API by default (i.e. no custom ``api_base`` required).
+
+    Parameters:
+        model_id (`str`): The OpenAI model to use (e.g. "gpt-4o").
+        api_key (`str`, *optional*): The OpenAI API key.
+    """
+
+
+class AnthropicModel(LiteLLMModel):
+    """Anthropic Claude models, routed through LiteLLM.
+
+    A thin wrapper over :class:`LiteLLMModel` that ensures the model id carries
+    the ``anthropic/`` provider prefix expected by LiteLLM, so callers can pass a
+    bare Claude model id (e.g. "claude-3-5-sonnet-latest").
+
+    Parameters:
+        model_id (`str`): The Claude model id, with or without the ``anthropic/`` prefix.
+        api_key (`str`, *optional*): The Anthropic API key.
+    """
+
+    def __init__(
+        self,
+        model_id: str = "claude-3-5-sonnet-latest",
+        api_key: Optional[str] = None,
+        **kwargs,
+    ):
+        if model_id and not model_id.startswith("anthropic/"):
+            model_id = f"anthropic/{model_id}"
+        super().__init__(model_id=model_id, api_key=api_key, **kwargs)
+
+
 __all__ = [
     "MessageRole",
     "TOOL_ROLE_CONVERSIONS",
@@ -1847,6 +1882,8 @@ __all__ = [
     "HfApiModel",
     "LiteLLMModel",
     "OpenAIServerModel",
+    "OpenAIModel",
+    "AnthropicModel",
     "VLLMModel",
     "AzureOpenAIServerModel",
     "ChatMessage",

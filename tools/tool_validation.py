@@ -3,7 +3,7 @@ import builtins
 from itertools import zip_longest
 from typing import Set
 
-from .utils import BASE_BUILTIN_MODULES, get_source
+from ..utils.utils import BASE_BUILTIN_MODULES, get_source
 
 
 _BUILTIN_NAMES = set(vars(builtins))

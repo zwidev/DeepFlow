@@ -32,14 +32,13 @@ DeepFlow@2025
 from dataclasses import dataclass
 from typing import Any, Dict, Optional
 
-from .local_python_executor import (
+from ..runtime.local_python_executor import (
     BASE_BUILTIN_MODULES,
     BASE_PYTHON_TOOLS,
     evaluate_python_code,
     LocalPythonExecutor,
 )
 from .tools import PipelineTool, Tool
-from .utils import get_parsed_html_from_url
 
 
 @dataclass
@@ -252,7 +251,7 @@ class VisitWebpageTool(Tool):
             from markdownify import markdownify
             from requests.exceptions import RequestException
 
-            from smolagents.utils import truncate_content
+            from ..utils.utils import truncate_content
         except ImportError as e:
             raise ImportError(
                 "You must install packages `markdownify` and `requests` to run this tool: for instance run `pip install markdownify requests`."
@@ -301,7 +300,7 @@ class SpeechToTextTool(PipelineTool):
         return super().__new__(cls, *args, **kwargs)
 
     def encode(self, audio):
-        from .agent_types import AgentAudio
+        from ..core.data_types import AgentAudio
 
         audio = AgentAudio(audio).to_raw()
         return self.pre_processor(audio, return_tensors="pt")

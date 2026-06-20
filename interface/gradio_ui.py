@@ -35,10 +35,10 @@ import shutil       # For high-level file operations like copying
 from typing import Optional  # For type hinting with optional parameters
 
 # Import project-specific modules and types
-from smolagents.agent_types import AgentAudio, AgentImage, AgentText, handle_agent_output_types  # Agent data types
-from smolagents.agents import ActionStep, MultiStepAgent  # Agent implementation components
-from smolagents.memory import MemoryStep  # For tracking agent memory and steps
-from smolagents.utils import _is_package_available  # Utility to check for dependencies
+from ..core.data_types import AgentAudio, AgentImage, AgentText, handle_agent_output_types  # Agent data types
+from ..core.agent_core import ActionStep, MultiStepAgent  # Agent implementation components
+from ..core.memory import MemoryStep  # For tracking agent memory and steps
+from ..utils.utils import _is_package_available  # Utility to check for dependencies
 
 
 def pull_messages_from_step(

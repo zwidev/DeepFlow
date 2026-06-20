@@ -45,7 +45,7 @@ from typing import TYPE_CHECKING, Any, Dict, Tuple
 
 
 if TYPE_CHECKING:
-    from smolagents.memory import AgentLogger
+    from ..core.memory import AgentLogger
 
 
 __all__ = ["AgentError"]
